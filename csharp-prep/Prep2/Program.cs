@@ -31,7 +31,25 @@ class Program
             letter = "F";
         }
 
-        Console.WriteLine($"Your grade is: {letter}");
+        int secondDigit = percent%10;
+        string Signal = "";
+
+        if (secondDigit >= 7 && percent < 90 && percent > 60)
+        {
+            Signal = "+";
+        }
+
+        else if (secondDigit < 3 && percent > 60)
+        {
+            Signal = "-";
+        }
+
+        else
+        {
+            Signal = "";
+        } 
+
+        Console.WriteLine($"Your grade is: {letter}{Signal}");
         
         if (percent >= 70)
         {
