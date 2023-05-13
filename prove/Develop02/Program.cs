@@ -11,7 +11,7 @@ class Program
         Journal myEntry = new Journal();
         DayRating myRating = new DayRating();
         PromptGenerator myPrompts = new PromptGenerator();
-        myPrompts._prompts.Add("Who was the most interesting person you interacted with today?");
+        myPrompts._prompts.Add("Who was the most interesting person you interacted with today and why?");
         myPrompts._prompts.Add("What are you planning to do this weekend?");
         myPrompts._prompts.Add("If you had one thing you could do over today, what would it be?");
         myPrompts._prompts.Add("What challenges did you face, and how did you overcome them?");
