@@ -73,7 +73,7 @@ public class WordManager
     // Check if all words are hidden, and if not, continue to prompt for user input
     if (HiddenWords.Count < WordList.Length)
     {
-        Show(Reference);
+        Show(Reference);    
         HandleUserInput();
     }
 }

@@ -1,5 +1,5 @@
 1;John;3;5;0;Except a man be born of water, and of the Spirit, he cannot enter into the kingdom of God. Jesus answered, Verily, verily, I say unto thee, Except a man be born of water and of the Spirit, he cannot enter into the kingdom of God.
-2;John;3;16;0;For God so loved the world, that he gave his only begotten Son. For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
-3;James;1;5;6;If any of you lack wisdom, let him ask of God. If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not and it shall be given him. But let him ask in faith, nothing wavering. For he that wavereth is like a wave of the sea driven with the wind and tossed.
+2;Moses;1;39;0;For behold, this is my awork and my glory to bring to pass the immortality and deternal life of man.
+3;Samuel;16;7;0; But the Lord said unto Samuel, Look not on his countenance, or on the height of his stature; because I have refused him: for the Lord seeth not as man seeth; for man looketh on the outward appearance, but the Lord looketh on the heart.
 4;Matthew;11;28;30;Come unto me, all ye that labour and are heavy laden, and I will give you rest. Come unto me, all ye that labour and are heavy laden, and I will give you rest. Take my yoke upon you, and learn of me for I am meek and lowly in heart and ye shall find rest unto your souls. For my yoke is easy, and my burden is light.
-5;juncito;84;56;0;hoy comi queso y pan.
+5;Alma;39;9;0;This is just a trial.
