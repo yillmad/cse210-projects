@@ -1,90 +1,74 @@
 using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
 
 class Program
 {
     static void Main(string[] args)
     {
-        // This will clear the console
         Console.Clear();
-        Reference reference = new Reference();
-        reference.LoadReference();
-        Scripture scripture = new Scripture();
-        scripture.LoadScriptures();
-        Word word = new Word();
+        ReferenceManager reference = new ReferenceManager();
+        reference.LoadReferences();
 
-        Console.Write("\n**** Welcome to the Scripture Memorizer App ****\n");
+        ScriptureManager scripture = new ScriptureManager();
+        scripture.LoadScriptures();
+
+        WordManager wordManager = new WordManager();
+        ScriptureEditor scriptureEditor = new ScriptureEditor();
+
+        Console.WriteLine("\n**** Welcome to the Scripture Memorizer App ****");
 
         int userChoice = 0;
-        // Console.WriteLine(userChoice);
 
-        while (userChoice != 3)
+        while (userChoice != 4)
         {
-            // Ask for user input (1,2,Q)
-            //Call UserChoice
-            userChoice = UserChoice();
+            userChoice = GetUserChoice();
 
             switch (userChoice)
             {
                 case 1:
-                    reference.ReferenceDisplay();
-
+                    reference.DisplayReferences();
                     break;
                 case 2:
-                    string script = scripture.RandomScripture();
+                    string script = scripture.GetRandomScripture();
                     string ref1 = reference.GetReference(scripture);
-                    word.GetRenderedText(scripture);
-                    word.GetRenderedRef(scripture);
-                    // word.GetRenderedRef(reference);
-                    // Console.Write($"\n{ref1}\n{script}\n");
+                    wordManager.RenderWords(scripture);
+                    wordManager.RenderReference(scripture);
 
-                    while (word._hidden.Count < word._result.Length)
+                    while (wordManager.HiddenWords.Count < wordManager.WordList.Length)
                     {
-                        word.Show(ref1);
-                        word.GetReadKey();
+                        wordManager.Show(ref1);
+                        wordManager.HandleUserInput();
                     }
-                    word.Show(ref1);
+                    wordManager.Show(ref1);
                     break;
                 case 3:
-                    Console.WriteLine("\n*** Thanks for playing! ***\n");
+                    scriptureEditor.AddNewScripture();
+                    break;
+                case 4:
+                    Console.WriteLine("\n*** Thanks for using the Scripture Memorizer App! ***\n");
                     break;
                 default:
-                    Console.WriteLine($"\nSorry the option you entered is not valid.");
+                    Console.WriteLine("\nSorry, the option you entered is not valid.");
                     break;
             }
         }
-
     }
 
-    static int UserChoice()
-    // Method to display choices to user
+    static int GetUserChoice()
     {
-        Reference reference = new Reference();
+        Console.WriteLine("\n===========================================");
+        Console.WriteLine("Please select one of the following choices:");
+        Console.WriteLine("1. Display all available scripture references");
+        Console.WriteLine("2. Randomly select a scripture to work on");
+        Console.WriteLine("3. Add a new scripture to memorize");
+        Console.WriteLine("4. Quit");
+        Console.WriteLine("===========================================");
+        Console.Write("What would you like to do? ");
 
-        string choices = $@"
-===========================================
-Please select one of the following choices:
-1. Display all availble scriptures references
-2. Randomly select scripture to work on
-Q. Quit
-===========================================
-What would you like to do?  ";
-
-        Console.Write(choices);
-
-        string userInput = Console.ReadLine();
-        userInput.ToLower();
+        string userInput = Console.ReadLine().ToLower();
         int userChoice = 0;
-        // This block catches any non integer values that are entered
+
         try
         {
-            if (userInput == "q")
-            {
-                userInput = "3";
-            }
             userChoice = int.Parse(userInput);
         }
         catch (FormatException)
@@ -93,11 +77,9 @@ What would you like to do?  ";
         }
         catch (Exception exception)
         {
-            Console.WriteLine(
-                $"Unexpected error:  {exception.Message}");
+            Console.WriteLine($"Unexpected error: {exception.Message}");
         }
+
         return userChoice;
     }
-
-
 }

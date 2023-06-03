@@ -1,88 +1,97 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
-// A code template for the category of things known as 
-public class Word
+public class WordManager
 {
-    // Variables
-    public string _words = "";
-    public string _ref = "";
-    public string[] _result;
-    public List<int> _hidden;
+    public string Words { get; set; }
+    public string Reference { get; set; }
+    public string[] WordList { get; private set; }
+    public List<int> HiddenWords { get; private set; }
 
-    // Methods
-    public Word()
-    {
-    }
-    public Word(string text, string visible)
-    {
-
-    }
-    public void GetRenderedText(Scripture scripture)
-    {
-        var _words = scripture._scriptureText;
-        _result = _words.Split(" ");
-        _hidden = new List<int>();
-    }
-    public void GetRenderedRef(Scripture scripture)
+    public WordManager()
     {
     }
 
-    public void Show(string ref1)
+    public WordManager(string text, string visible)
     {
-       _ref = ref1;
-        Console.Clear();
-        Console.Write("\n**** Press spacebar or enter to hide words ****");
-        Console.Write("\n**** Press Q to Quit ****\n");
-        // Console.Write($"{_hidden.Count}, {_result.Length}\n");
-        Console.WriteLine($"{_ref}");
-        for (var i = 0; i < _result.Length; i++)
-        {
-            var str = _result[i];
-            int len = str.Length;
-            string dashedLine = new String('_', len);
-            if (_hidden.Contains(i))
-            {
-                Console.Write($"{dashedLine} ");
-            }
-            else
-            {
-                Console.Write($"{str} ");
-            }
-        }
+
     }
 
-    public void GetReadKey()
+    public void RenderWords(ScriptureManager scriptureManager)
     {
-        var input = Console.ReadKey();
-        if (input.Key == ConsoleKey.Spacebar || input.Key == ConsoleKey.Enter)
-        {
-            GetNewHiddenWord();
-            // GetNewHiddenWord();
-        }
-        else if (input.Key == ConsoleKey.Q)
-        {
-            Environment.Exit(0);
-        }
+        Words = scriptureManager.CurrentScriptureText;
+        WordList = Words.Split(" ");
+        HiddenWords = new List<int>();
     }
-    public void GetNewHiddenWord()
+
+    public void RenderReference(ScriptureManager scriptureManager)
     {
-        // var cap = _hidden.Capacity;
-        // cap = _result.Length;
-        var random = new Random();
-        var index1 = random.Next(_result.Length);
-        var index2 = random.Next(_result.Length);
-        if (_hidden.Contains(index1) || _hidden.Contains(index2))
+        // Implementation for rendering reference text
+    }
+
+    public void Show(string reference)
+{
+    Reference = reference;
+    Console.Clear();
+    Console.Write("\n**** Press spacebar or enter to hide words ****");
+    Console.Write("\n**** Press Q to Quit ****\n");
+    Console.WriteLine($"{Reference}");
+
+    Console.WriteLine("\nSentence to Memorize:");
+
+    for (int i = 0; i < WordList.Length; i++)
+    {
+        string word = WordList[i];
+        int length = word.Length;
+        string dashedLine = new String('_', length);
+
+        if (HiddenWords.Contains(i))
         {
-            GetNewHiddenWord();
+            Console.Write($"{dashedLine} ");
         }
         else
         {
-            _hidden.Add(index1);
-            _hidden.Add(index2);
-
+            Console.Write($"{word} ");
         }
     }
+}
 
 
+    public void HandleUserInput()
+{
+    var input = Console.ReadKey();
+
+    if (input.Key == ConsoleKey.Spacebar || input.Key == ConsoleKey.Enter)
+    {
+        GenerateNewHiddenWord();
+    }
+    else if (input.Key == ConsoleKey.Q)
+    {
+        Environment.Exit(1);
+    }
+
+    // Check if all words are hidden, and if not, continue to prompt for user input
+    if (HiddenWords.Count < WordList.Length)
+    {
+        Show(Reference);
+        HandleUserInput();
+    }
+}
+
+    public void GenerateNewHiddenWord()
+    {
+        var random = new Random();
+        var index1 = random.Next(WordList.Length);
+        var index2 = random.Next(WordList.Length);
+
+        if (HiddenWords.Contains(index1) || HiddenWords.Contains(index2))
+        {
+            GenerateNewHiddenWord();
+        }
+        else
+        {
+            HiddenWords.Add(index1);
+            HiddenWords.Add(index2);
+        }
+    }
 }

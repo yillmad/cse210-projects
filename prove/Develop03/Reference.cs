@@ -1,84 +1,84 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
-// A code template for the category of things known as 
-public class Reference
+public class ReferenceManager
 {
-    // Variables
-    public List<Reference> _reference = new List<Reference>();
-    private string _fileName = "DataText.txt";
-    private string _key;
-    private string _book;
-    private int _chapter;
-    private int _verseStart;
-    private int _verseEnd;
+    public List<Reference> References { get; private set; }
+    private string FileName { get; } = "DataText.txt";
 
-    // Methods
-    public void LoadReference()
+    public void LoadReferences()
     {
-        List<string> readText = File.ReadAllLines(_fileName).Where(arg => !string.IsNullOrWhiteSpace(arg)).ToList();
+        List<string> readText = File.ReadAllLines(FileName)
+            .Where(arg => !string.IsNullOrWhiteSpace(arg))
+            .ToList();
+
+        References = new List<Reference>();
 
         foreach (string line in readText)
         {
             string[] entries = line.Split(";");
-  
-            Reference entry = new Reference();
 
-            entry._key = entries[0];
-            entry._book = entries[1];
-            entry._chapter = int.Parse(entries[2]);
-            entry._verseStart = int.Parse(entries[3]);
-            entry._verseEnd = int.Parse(entries[4]);
+            Reference reference = new Reference();
 
-            _reference.Add(entry);
+            reference.Key = entries[0];
+            reference.Book = entries[1];
+            reference.Chapter = int.Parse(entries[2]);
+            reference.VerseStart = int.Parse(entries[3]);
+            reference.VerseEnd = int.Parse(entries[4]);
+
+            References.Add(reference);
         }
     }
 
-    public void ReferenceDisplay()
+    public void DisplayReferences()
     {
-        foreach (Reference item in _reference)
+        foreach (Reference reference in References)
         {
-            // var test = item._verseEnd.Equals(0);
-            // Console.WriteLine(test);
-            if (item._verseEnd.Equals(0))
+            if (reference.VerseEnd == 0)
             {
-                item.ReferenceOne();
+                reference.DisplayReferenceOne();
             }
             else
             {
-                item.ReferenceTwo();
+                reference.DisplayReferenceTwo();
             }
         }
     }
-    public string GetReference(Scripture scripture)
-    {
-        var index = scripture._index;
 
-        var refi = _reference[index];
-        string ref1;
-        if (refi._verseEnd.Equals(0))
+    public string GetReference(ScriptureManager scriptureManager)
+    {
+        int index = scriptureManager.Index;
+
+        Reference reference = References[index];
+        string referenceText;
+        if (reference.VerseEnd == 0)
         {
-            return ref1 = ($"\n{refi._book} {refi._chapter}:{refi._verseStart}");
-            
+            return referenceText = $"\n{reference.Book} {reference.Chapter}:{reference.VerseStart}";
         }
         else
         {
-            return ref1 = $"\n{refi._book} {refi._chapter}:{refi._verseStart}-{refi._verseEnd}";
+            return referenceText = $"\n{reference.Book} {reference.Chapter}:{reference.VerseStart}-{reference.VerseEnd}";
         }
     }
 
+    public class Reference
+    {
+        public string Key { get; set; }
+        public string Book { get; set; }
+        public int Chapter { get; set; }
+        public int VerseStart { get; set; }
+        public int VerseEnd { get; set; }
 
-    public void ReferenceOne()
-    {
-        Console.WriteLine($"\n{_book} {_chapter}:{_verseStart}");
-    }
-    public void ReferenceTwo()
-    {
-        Console.WriteLine($"\n{_book} {_chapter}:{_verseStart}-{_verseEnd}");
+        public void DisplayReferenceOne()
+        {
+            Console.WriteLine($"\n{Book} {Chapter}:{VerseStart}");
+        }
+
+        public void DisplayReferenceTwo()
+        {
+            Console.WriteLine($"\n{Book} {Chapter}:{VerseStart}-{VerseEnd}");
+        }
     }
 }
-
-// add()
-// delete()
-// display()
-// update()
-// search()

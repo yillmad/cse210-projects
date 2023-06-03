@@ -1,71 +1,82 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
-// A code template for the category of things known as 
-public class Scripture
+public class ScriptureManager
 {
-    // Variables
-    public List<Scripture> _scripture = new List<Scripture>();
-    private string _fileName = "DataText.txt";
-    private string _key;
-    private string _text;
-    public int _index;
-    public string _scriptureText;
+    public List<Scripture> Scriptures { get; private set; }
+    private string FileName { get; } = "DataText.txt";
+    public int Index { get; private set; }
+    public string CurrentScriptureText { get; private set; }
 
-
-    // Methods
     public void LoadScriptures()
     {
-        List<string> readText = File.ReadAllLines(_fileName).Where(arg => !string.IsNullOrWhiteSpace(arg)).ToList();
+        List<string> readText = File.ReadAllLines(FileName)
+            .Where(arg => !string.IsNullOrWhiteSpace(arg))
+            .ToList();
+
+        Scriptures = new List<Scripture>();
 
         foreach (string line in readText)
         {
             string[] entries = line.Split(";");
 
-            Scripture entry = new Scripture();
+            Scripture scripture = new Scripture();
 
-            entry._key = entries[0];
-            entry._text = entries[6];
+            scripture.Key = entries[0];
+            scripture.Text = entries[5];
 
-            _scripture.Add(entry);
+            Scriptures.Add(scripture);
         }
     }
 
-    public void ScriptureDisplay()
+    public void DisplayScriptures()
+{
+    foreach (Scripture scripture in Scriptures)
     {
-        foreach (Scripture item in _scripture)
+        // Split the scripture text by semicolons
+        string[] parts = scripture.Text.Split(';');
+
+        // Display the text starting from the 5th semicolon until the end
+        for (int i = 4; i < parts.Length; i++)
         {
-            item.ShowScripture();
+            Console.Write(parts[i].Trim());
+
+            // Add a period at the end of each part except the last one
+            if (i < parts.Length - 1)
+            {
+                Console.Write(". ");
+            }
         }
+
+        Console.WriteLine();
     }
-    public void ShowScripture()
-    {
-        Console.WriteLine($"\n{_text}");
-    }
+}
+
 
     public int GetRandomIndex()
     {
-        var random = new Random();
-        _index = random.Next(_scripture.Count);
-        return _index;
+        Random random = new Random();
+        Index = random.Next(Scriptures.Count);
+        return Index;
     }
 
-    public string RandomScripture()
+    public string GetRandomScripture()
     {
-        _index = GetRandomIndex();
-       return _scriptureText = _scripture[_index]._text;
+        Index = GetRandomIndex();
+        CurrentScriptureText = Scriptures[Index].Text;
+        return CurrentScriptureText;
     }
-    public void HideWords()
+
+    public class Scripture
     {
+        public string Key { get; set; }
+        public string Text { get; set; }
 
+        public void Display()
+        {
+            Console.WriteLine($"\n{Text}");
+        }
     }
-    public void GetRenderedText()
-    {
-
-    }
-    public void IsCompletelyHidden()
-    {
-
-    }
-
-
 }
